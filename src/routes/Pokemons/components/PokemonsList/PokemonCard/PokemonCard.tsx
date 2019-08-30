@@ -23,7 +23,7 @@ const PokemonCard: FunctionComponent<{
             </SC.ImageWrapper>
             <SC.Description>
                 <SC.Name>{name}</SC.Name>
-                <SC.Text>{supertype ? supertype : 'No data...'}</SC.Text>
+                <SC.Text>{supertype}</SC.Text>
             </SC.Description>
         </SC.PokemonCard>
     );
