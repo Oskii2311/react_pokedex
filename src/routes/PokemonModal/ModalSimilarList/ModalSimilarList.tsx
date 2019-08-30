@@ -17,21 +17,23 @@ const ModalSimilarList: FunctionComponent<IModalSimilarList> = ({
             <Label>SIMILAR POKEMONS</Label>
 
             <SC.ModalSimilarList>
-                {pokemons.map(pokemon => {
-                    return (
-                        <Link
-                            key={`pokemon-similar-${pokemon.id}`}
-                            to={`${pokemon.id}`}
-                            replace
-                        >
-                            <PokemonCard
-                                isSimilarCard
-                                pokemon={pokemon}
-                                key={`pokemon-similar-${pokemon.id}`}
-                            />
-                        </Link>
-                    );
-                })}
+                {pokemons.length > 0
+                    ? pokemons.map(pokemon => {
+                          return (
+                              <Link
+                                  key={`pokemon-similar-${pokemon.id}`}
+                                  to={`${pokemon.id}`}
+                                  replace
+                              >
+                                  <PokemonCard
+                                      isSimilarCard
+                                      pokemon={pokemon}
+                                      key={`pokemon-similar-${pokemon.id}`}
+                                  />
+                              </Link>
+                          );
+                      })
+                    : 'no similar cards !'}
             </SC.ModalSimilarList>
         </SC.ModalSimilarListWrapper>
     );

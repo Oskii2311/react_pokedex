@@ -5,9 +5,15 @@ const Label = styled.div`
 `;
 
 const Value = styled.div`
-    padding-left: 20px;
+    display: flex;
     padding-top: 6px;
     box-sizing: border-box;
+
+    > :first-child {
+        padding-right: 8px;
+        padding-left: 8px;
+        margin-top: 3px;
+    }
 `;
 
 export { Label, Value };

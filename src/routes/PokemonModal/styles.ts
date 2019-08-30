@@ -16,7 +16,8 @@ const ModalWrapper = styled.div`
     box-sizing: border-box;
     background-color: #fff;
     border-radius: 6px !important;
-    overflow-x: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
 `;
 
@@ -30,9 +31,10 @@ const CloseButton = styled.button`
     right: 0;
     width: 50px;
     height: 50px;
-
+    background-color: #fff;
     cursor: pointer;
     font-size: 1.4em;
+
     &:hover {
         background-color: #cc0000;
         color: #fff;

@@ -4,6 +4,8 @@ import React, {
     memo,
     useState,
     useCallback,
+    useRef,
+    MouseEvent,
 } from 'react';
 import * as SC from './styles';
 import { RouteComponentProps } from 'react-router';
@@ -20,6 +22,7 @@ type TParams = { id: string };
 
 interface IPokemonModal extends RouteComponentProps<TParams> {}
 const PokemonModal: FunctionComponent<IPokemonModal> = ({
+    history,
     match: {
         params: { id },
     },
@@ -29,6 +32,8 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
     const { fetchSimilarPokemons, getPokemon } = usePokemonsApi();
     const [similarPokoemons, setSimilarPokemons] = useState<IPokemon[]>([]);
     const [isFetchingSimilar, setFetchingSimilar] = useState(true);
+    const node = useRef<HTMLDivElement>(null);
+    const [isMounted, setMounted] = useState(false);
 
     const initCurrentPokemon = useCallback(
         async (id: string) => {
@@ -53,26 +58,31 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
 
     const getSimilarPokemons = useCallback(
         async (currentPokemon: IPokemon) => {
-            try {
-                setFetchingSimilar(true);
-                const res = await fetchSimilarPokemons(
-                    currentPokemon.subtype,
-                    currentPokemon.supertype
-                );
-                const filteredRes = res.filter(
-                    item => item.id !== currentPokemon.id
-                );
-                setSimilarPokemons([
-                    filteredRes[0],
-                    filteredRes[1],
-                    filteredRes[2],
-                ]);
-            } catch {
-                setSimilarPokemons([]);
+            if (isMounted) {
+                try {
+                    setFetchingSimilar(true);
+                    const res = await fetchSimilarPokemons(
+                        currentPokemon.types,
+                        currentPokemon.rarity,
+                        currentPokemon.hp,
+                        currentPokemon.subtype,
+                        currentPokemon.supertype
+                    );
+
+                    const filteredRes = res.filter(
+                        item => item.id !== currentPokemon.id
+                    );
+                    if (filteredRes.length > 2) {
+                        filteredRes.pop();
+                    }
+                    setSimilarPokemons(filteredRes);
+                } catch {
+                    setSimilarPokemons([]);
+                }
+                setFetchingSimilar(false);
             }
-            setFetchingSimilar(false);
         },
-        [fetchSimilarPokemons]
+        [fetchSimilarPokemons, isMounted]
     );
 
     useEffect(() => {
@@ -81,8 +91,27 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
         }
     }, [currentPokemon]);
 
+    const handleClick = useCallback(
+        (e: any) => {
+            if (node.current && node.current.contains(e.target)) {
+                return;
+            }
+            history.push('/');
+        },
+        [history, node]
+    );
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClick);
+        setMounted(true);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClick);
+        };
+    }, []);
+
     return (
-        <SC.ModalWrapper>
+        <SC.ModalWrapper ref={node}>
             <Link to="/">
                 <SC.CloseButton>X</SC.CloseButton>
             </Link>
@@ -100,6 +129,13 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
                             series={currentPokemon.series}
                             superType={currentPokemon.supertype}
                             rarity={currentPokemon.rarity}
+                            types={currentPokemon.types}
+                            pokedexNumber={currentPokemon.nationalPokedexNumber}
+                            hp={currentPokemon.hp}
+                            set={currentPokemon.set}
+                            weakness={currentPokemon.weaknesses}
+                            attacks={currentPokemon.attacks}
+                            evolvesFrom={currentPokemon.evolvesFrom}
                         ></ModalDescription>
                     </SC.ModalContent>
                     {isFetchingSimilar ? (

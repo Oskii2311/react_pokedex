@@ -4,7 +4,7 @@ interface IAbility {
     type: string;
 }
 
-interface IAttack {
+export interface IAttack {
     cost: string[];
     name: string;
     text: string;
@@ -17,7 +17,7 @@ interface IResistance {
     value: string;
 }
 
-interface IWeakness {
+export interface IWeakness {
     type: string;
     value: string;
 }
@@ -25,17 +25,17 @@ interface IWeakness {
 export interface IPokemon {
     ability: IAbility;
     artist: string;
-    attacks: IAttack[];
+    attacks: IAttack[] | undefined;
     convertedRetreatCost: number;
     evolvesFrom: string;
-    hp: string;
+    hp?: string;
     id: string;
     imageUrl: string;
     imageUrlHiRes: string;
     name: string;
-    nationalPokedexNumber: number;
+    nationalPokedexNumber?: number;
     number: string;
-    rarity: string;
+    rarity?: string;
     resistances: IResistance[];
     retreatCost: string[];
     series: string;
@@ -44,6 +44,6 @@ export interface IPokemon {
     subtype: string;
     supertype: string;
     text: string[];
-    types: string[];
-    weaknesses: IWeakness[];
+    types: string[] | undefined;
+    weaknesses: IWeakness[] | undefined;
 }

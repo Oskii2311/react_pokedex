@@ -6,6 +6,14 @@ const ModalImageWrapper = styled.div`
     width: 300px;
     margin-right: 80px;
     min-width: 200px;
+    @media (max-width: 950px) {
+        margin-right: 10px;
+    }
+
+    @media (max-width: 800px) {
+        min-width: 170px;
+    }
+
     @media (max-width: 768px) {
         width: 120px;
         margin-right: 0;

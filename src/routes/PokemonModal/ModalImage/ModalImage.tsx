@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo, useState, useCallback } from 'react';
+import React, { FunctionComponent, memo } from 'react';
 import * as SC from './styles';
 import InfiniteScroll from 'components/InfiniteScroll/InfiniteScroll';
 import useImageLoading from 'hooks/useImageLoading';
