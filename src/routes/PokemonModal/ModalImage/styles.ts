@@ -13,7 +13,8 @@ const ModalImageWrapper = styled.div`
     }
 `;
 
-const ModalImage = styled.img`
+const ModalImage = styled.img<{ isImageLoading?: boolean }>`
+    display: ${props => (props.isImageLoading ? 'none' : 'block')};
     object-fit: contain;
     width: 100%;
 `;

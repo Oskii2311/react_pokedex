@@ -39,7 +39,7 @@ const PokemonCard = styled.div<{ isSimilarCard?: boolean }>`
     ${props =>
         props.isSimilarCard &&
         ` {
-            @media (max-width: 1050px) {
+            @media (max-width: 1100px) {
                 min-height:auto;
                 width:auto;
                 ${Description} {
@@ -64,7 +64,8 @@ const ImageWrapper = styled.div`
     width: 100%;
 `;
 
-const Image = styled.img`
+const Image = styled.img<{ isImageLoading?: boolean }>`
+    display: ${props => (props.isImageLoading ? 'none' : 'block')};
     object-fit: contain;
     width: 60%;
 `;

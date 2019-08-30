@@ -1,7 +1,7 @@
 import React from 'react';
 import * as SC from './styles';
 
-const InfniteScroll = () => (
+const InfiniteScroll = () => (
     <SC.SmallLoader data-testid="loader">
         <SC.RollerLoader>
             <div />
@@ -12,4 +12,4 @@ const InfniteScroll = () => (
     </SC.SmallLoader>
 );
 
-export default InfniteScroll;
+export default InfiniteScroll;

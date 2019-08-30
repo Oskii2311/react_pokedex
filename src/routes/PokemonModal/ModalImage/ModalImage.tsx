@@ -1,5 +1,7 @@
-import React, { FunctionComponent, memo } from 'react';
+import React, { FunctionComponent, memo, useState, useCallback } from 'react';
 import * as SC from './styles';
+import InfiniteScroll from 'components/InfiniteScroll/InfiniteScroll';
+import useImageLoading from 'hooks/useImageLoading';
 
 interface IModalImage {
     imageUrl: string;
@@ -7,9 +9,17 @@ interface IModalImage {
 }
 
 const ModalImage: FunctionComponent<IModalImage> = ({ imageUrl, name }) => {
+    const { finishImageLoading, isImageLoading } = useImageLoading();
+
     return (
         <SC.ModalImageWrapper>
-            <SC.ModalImage src={imageUrl} alt={name} />
+            <SC.ModalImage
+                src={imageUrl}
+                alt={name}
+                onLoad={finishImageLoading}
+                isImageLoading={isImageLoading}
+            />
+            {isImageLoading && <InfiniteScroll />}
         </SC.ModalImageWrapper>
     );
 };

@@ -2,7 +2,7 @@ import { usePokemonsContext } from 'contexts/PokemonsContext/PokemonsContext';
 import React, { useCallback, memo, useEffect } from 'react';
 import PokemonCard from './PokemonCard/PokemonCard';
 import * as SC from './styles';
-import InfniteScroll from 'components/InfiniteScroll/InfiniteScroll';
+import InfiniteScroll from 'components/InfiniteScroll/InfiniteScroll';
 import usePokemonsApi from 'hooks/usePokemonsApi';
 import useInfiniteScroll from 'hooks/useInfiniteScroll';
 import { Link } from 'react-router-dom';
@@ -34,7 +34,7 @@ const PokemonList = () => {
                     </Link>
                 );
             })}
-            {isInfiniteScrollVisible && !isEnd && <InfniteScroll />}
+            {isInfiniteScrollVisible && !isEnd && <InfiniteScroll />}
             {isEnd && <div>No more data</div>}
         </SC.PokemonList>
     );

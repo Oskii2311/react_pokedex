@@ -14,6 +14,7 @@ import usePokemonsApi from 'hooks/usePokemonsApi';
 import ModalSimilarList from './ModalSimilarList/ModalSimilarList';
 import { IPokemon } from 'common/types/types';
 import { Link } from 'react-router-dom';
+import InfiniteScroll from 'components/InfiniteScroll/InfiniteScroll';
 
 type TParams = { id: string };
 
@@ -27,6 +28,7 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
     const { pokemons } = usePokemonsContext();
     const { fetchSimilarPokemons, getPokemon } = usePokemonsApi();
     const [similarPokoemons, setSimilarPokemons] = useState<IPokemon[]>([]);
+    const [isFetchingSimilar, setFetchingSimilar] = useState(true);
 
     const initCurrentPokemon = useCallback(
         async (id: string) => {
@@ -52,6 +54,7 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
     const getSimilarPokemons = useCallback(
         async (currentPokemon: IPokemon) => {
             try {
+                setFetchingSimilar(true);
                 const res = await fetchSimilarPokemons(
                     currentPokemon.subtype,
                     currentPokemon.supertype
@@ -67,6 +70,7 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
             } catch {
                 setSimilarPokemons([]);
             }
+            setFetchingSimilar(false);
         },
         [fetchSimilarPokemons]
     );
@@ -98,7 +102,11 @@ const PokemonModal: FunctionComponent<IPokemonModal> = ({
                             rarity={currentPokemon.rarity}
                         ></ModalDescription>
                     </SC.ModalContent>
-                    <ModalSimilarList pokemons={similarPokoemons} />
+                    {isFetchingSimilar ? (
+                        <InfiniteScroll />
+                    ) : (
+                        <ModalSimilarList pokemons={similarPokoemons} />
+                    )}
                 </>
             )}
         </SC.ModalWrapper>
