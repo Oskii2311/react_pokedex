@@ -1,7 +1,12 @@
 import PokemonsApi from 'apis/PokemonApi/PokemonApi';
 import createUseContext from 'constate';
 import { useCallback, useReducer } from 'react';
-import { initialState, PokemonsReducer } from './PokemonsReducer';
+import {
+    initialState,
+    PokemonsReducer,
+    IPokemonsPagination,
+} from './PokemonsReducer';
+import { IPokemon } from 'common/types/types';
 interface IUsePokemons {
     apis: {
         pokemonsApi: PokemonsApi;
@@ -14,10 +19,21 @@ const usePokemons = (props: IUsePokemons) => {
     } = props;
     const [state, dispatch] = useReducer(PokemonsReducer, initialState);
 
-    const setPokemons = useCallback((pokemons: any) => {
+    const setPokemons = useCallback(
+        (pokemons: IPokemon[], pagination: IPokemonsPagination) => {
+            dispatch({
+                type: 'ADD_POKEMONS_ITEMS_AND_PAGINATION',
+                pokemons,
+                pagination,
+            });
+        },
+        []
+    );
+
+    const setEndOfPokemonList = useCallback((isEnd: boolean) => {
         dispatch({
-            type: 'ADD_POKEMONS',
-            pokemons,
+            type: 'SET_END_OF_POKEMON_LIST',
+            isEnd,
         });
     }, []);
 
@@ -25,6 +41,7 @@ const usePokemons = (props: IUsePokemons) => {
         ...state,
         setPokemons,
         pokemonsApi,
+        setEndOfPokemonList,
     };
 };
 

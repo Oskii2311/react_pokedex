@@ -1,7 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-
-const MAIN_LOADER_COLOR = ' #2175D9';
-const SECOND_LOADER_COLOR = ' #0F1941';
+import { SECOND_LOADER_COLOR, MAIN_LOADER_COLOR } from 'common/colors/colors';
 
 const Ellipsis1 = keyframes`
     0% {
@@ -40,14 +38,6 @@ const Ellipsis4 = keyframes`
         background-color: ${SECOND_LOADER_COLOR}
     }
 `;
-
-const RollerKeyframes = keyframes`
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }`;
 
 const Loader = styled.div`
     position: fixed;

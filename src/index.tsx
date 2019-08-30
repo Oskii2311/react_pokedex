@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import AppRouter from 'routes/AppRouter';
 import { usePokemonsContext } from './contexts/PokemonsContext/PokemonsContext';
 import './index.css';
+import 'react-router-modal/css/react-router-modal.css';
 
 const pokemonsApi = new PokemonApi();
 

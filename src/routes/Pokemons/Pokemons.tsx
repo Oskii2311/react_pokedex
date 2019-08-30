@@ -1,25 +1,15 @@
 import DotsLoader from 'components/Spinner/Spinner';
 import { usePokemonsContext } from 'contexts/PokemonsContext/PokemonsContext';
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import PokemonList from './components/PokemonsList/PokemonsList';
+import usePokemonsApi from 'hooks/usePokemonsApi';
 
 const Pokemons = () => {
-    const { pokemons, pokemonsApi, setPokemons } = usePokemonsContext();
-
-    const fetchPokemons = useCallback(
-        async (pageNumber: number, size: number) => {
-            try {
-                const cards = await pokemonsApi.getPokemons(pageNumber, size);
-                setPokemons(cards);
-            } catch (err) {
-                setPokemons([]);
-            }
-        },
-        [pokemonsApi, setPokemons]
-    );
+    const { pokemons } = usePokemonsContext();
+    const { fetchPokemons } = usePokemonsApi();
 
     useEffect(() => {
-        fetchPokemons(0, 20);
+        fetchPokemons(1);
     }, []);
 
     return <>{pokemons.length > 0 ? <PokemonList /> : <DotsLoader />}</>;
